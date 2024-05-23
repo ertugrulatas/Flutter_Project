@@ -10,7 +10,7 @@
  ## Project Details
  The project creates recipes on the internet using rest JSOn data using async method.
 
- ## Ovner
+ ## Owner
  Ertuğrul ATAŞ
 
  ## Advisor
