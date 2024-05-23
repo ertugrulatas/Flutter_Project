@@ -7,7 +7,7 @@ class CategoriesScreen extends StatelessWidget {
   Future<List<dynamic>> fetchCategories() async {
     final response = await http.get(
         Uri.parse('https://www.themealdb.com/api/json/v1/1/categories.php'));
-
+    //Başarılı işlem dönerse
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       return data['categories'];
@@ -20,7 +20,7 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Yemek Kategorileri'),
+        title: Text('Yemek Kategorileri'), //Ana Kategoriler
       ),
       body: FutureBuilder<List<dynamic>>(
         future: fetchCategories(),
@@ -33,6 +33,7 @@ class CategoriesScreen extends StatelessWidget {
             return Center(child: Text('Veri Yok'));
           } else {
             final categories = snapshot.data!;
+            //verileri grid olarak alma
             return GridView.builder(
               padding: EdgeInsets.all(10.0),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -53,6 +54,7 @@ class CategoriesScreen extends StatelessWidget {
                       ),
                     );
                   },
+                  //Kategorileri görsel olarak daha çekici hale getirme
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
