@@ -10,7 +10,7 @@ class MealsScreen extends StatelessWidget {
 
   Future<List<dynamic>> fetchMeals() async {
     final response = await http.get(Uri.parse(
-        'https://www.themealdb.com/api/json/v1/1/filter.php?c=$category'));
+        'https://www.themealdb.com/api/json/v1/1/filter.php?c=$category')); //Kategori verisini alarak ilgili siteden json ile veriyi çekiyoruz
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -24,7 +24,7 @@ class MealsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('$category Tarifleri'),
+        title: Text('$category Tarifleri'), //Alta kategori
       ),
       body: FutureBuilder<List<dynamic>>(
         future: fetchMeals(),
@@ -38,6 +38,7 @@ class MealsScreen extends StatelessWidget {
           } else {
             final meals = snapshot.data!;
             return ListView.builder(
+              //Json verileri liste haline getirme
               itemCount: meals.length,
               itemBuilder: (context, index) {
                 final meal = meals[index];
@@ -48,7 +49,7 @@ class MealsScreen extends StatelessWidget {
                     leading: meal['strMealThumb'] != null
                         ? CircleAvatar(
                             backgroundImage: NetworkImage(meal['strMealThumb']),
-                          )
+                          ) //Resimleri avatar olarak gösterme
                         : null,
                     onTap: () {
                       Navigator.push(
@@ -56,10 +57,10 @@ class MealsScreen extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) =>
                               MealDetailScreen(mealId: meal['idMeal']),
-                        ),
+                        ), //MateerialPageTRoute
                       );
                     },
-                  ),
+                  ), //ListTitle
                 );
               },
             );

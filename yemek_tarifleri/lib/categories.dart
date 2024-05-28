@@ -5,8 +5,8 @@ import 'meals.dart';
 
 class CategoriesScreen extends StatelessWidget {
   Future<List<dynamic>> fetchCategories() async {
-    final response = await http.get(
-        Uri.parse('https://www.themealdb.com/api/json/v1/1/categories.php'));
+    final response = await http.get(Uri.parse(
+        'https://www.themealdb.com/api/json/v1/1/categories.php')); //verileri json ile alıyoruz
     //Başarılı işlem dönerse
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -35,6 +35,7 @@ class CategoriesScreen extends StatelessWidget {
             final categories = snapshot.data!;
             //verileri grid olarak alma
             return GridView.builder(
+              //Verileri Grid içerisinde alma
               padding: EdgeInsets.all(10.0),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -45,6 +46,7 @@ class CategoriesScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final category = categories[index];
                 return GestureDetector(
+                  //Hareketleri algılama, boyulandırmayı categoriye bırakma
                   onTap: () {
                     Navigator.push(
                       context,
@@ -65,6 +67,7 @@ class CategoriesScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ClipRRect(
+                            // çerçeve köşeleri yuvarlama
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(10.0)),
                             child: Image.network(
@@ -82,12 +85,12 @@ class CategoriesScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.center,
-                          ),
-                        ),
+                          ), //Text
+                        ), //padding
                       ],
-                    ),
-                  ),
-                );
+                    ), //column
+                  ), //card
+                ); //GestureDetector
               },
             );
           }
@@ -96,49 +99,3 @@ class CategoriesScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-/*
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Yemek Kategorileri'),
-      ),
-      body: FutureBuilder<List<dynamic>>(
-        future: fetchCategories(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Hata: ${snapshot.error}'));
-          } else if (!snapshot.hasData) {
-            return Center(child: Text('Veri Yok'));
-          } else {
-            final categories = snapshot.data!;
-            return ListView.builder(
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                return ListTile(
-                  title: Text(category['strCategory']),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MealsScreen(category: category['strCategory']),
-                      ),
-                    );
-                  },
-                );
-              },
-            );
-          }
-        },
-      ),
-    );
-  }
-}
-*/
